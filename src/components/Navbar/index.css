@@ -1,0 +1,31 @@
+.fontstyle{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: larger;
+}
+
+
+.nav-balance {
+  display: none; 
+}
+
+.wallet-balance{
+    font-size:1.875rem;
+}
+
+@media (min-width: 501px) {
+  .nav-balance {
+    display: flex; 
+  }
+}
+
+@media (max-width: 300px) {
+  .wallet-balance {
+    font-size: 15px; 
+  }
+} 
+
+@media (min-width: 301px) and (max-width: 600px) {
+  .wallet-balance {
+    font-size: 18px; 
+  }
+}
