@@ -72,7 +72,7 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
       
 
         <div id="entry-table" className="w-full">
-          <ul className="grid grid-cols-5 gap-2 sm:gap-4 text-left mb-2 font-bold text-[#43042c] px-2 sm:px-4">
+          <ul className="grid grid-cols-6 gap-2 sm:gap-4 text-left mb-2 font-bold text-[#43042c] px-2 sm:px-4">
             <li>#</li>
             <li>Title</li>
             <li>Date</li>
@@ -80,7 +80,7 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
             <li>Amount</li>
           </ul>
           {filteredEntries.map((entry, index) => (
-            <ul key={entry.id} className="p-2 sm:p-4 border-b border-[#cbf9c0] grid grid-cols-5 gap-2 sm:gap-4 text-left px-2 sm:px-4">
+            <ul key={entry.id} className="p-2 sm:p-4 border-b border-[#cbf9c0] grid grid-cols-6 gap-2 sm:gap-4 text-left px-2 sm:px-4">
               <li className="text-sm sm:text-sm">{index + 1}</li>
               <li className="text-sm sm:text-sm flex items-center overflow-hidden max-w-xs">
                 <span className="truncate">{entry.title}</span>
@@ -91,13 +91,13 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
               </li>
               <li className="text-sm sm:text-base text-[#6d0445] flex items-center">
                 ₹ {entry.amount}
-                <button 
+              </li>
+               <button 
                   onClick={() => onRemoveEntry(entry.id)} 
                   className="text-red-600 hover:text-red-800 ml-2"
                 >
                   <IoRemoveCircleOutline />
                 </button>
-              </li>
             </ul>
           ))}
         </div>
