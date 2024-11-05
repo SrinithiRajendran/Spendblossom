@@ -1,0 +1,10 @@
+@media print {
+  #entry-table {
+    font-size: 12px; 
+    line-height: 1.5; 
+  }
+  #entry-table ul {
+    margin: 0; 
+    padding: 0; 
+  }
+}

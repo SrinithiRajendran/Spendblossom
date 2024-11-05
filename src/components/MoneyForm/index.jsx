@@ -1,4 +1,3 @@
-// MoneyForm.js
 import React, { useState } from 'react';
 import { MdOutlineHistoryEdu } from "react-icons/md";
 import {Link} from 'react-router-dom'

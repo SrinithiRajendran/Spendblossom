@@ -22,10 +22,16 @@
   .wallet-balance {
     font-size: 15px; 
   }
+  .wallet-balance2{
+    font-size: 22px;
+  }
 } 
 
 @media (min-width: 301px) and (max-width: 600px) {
   .wallet-balance {
     font-size: 18px; 
+  }
+  .wallet-balance2{
+    font-size: 22px;
   }
 }

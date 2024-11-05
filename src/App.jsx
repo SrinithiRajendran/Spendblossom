@@ -39,11 +39,11 @@ const App = () => {
   };
 
   const handleRemoveEntry = (id) => {
-  // Filter out the entry to be removed
+  
   const updatedEntries = entries.filter((entry) => entry.id !== id);
   setEntries(updatedEntries);
 
-  // Recalculate totals from the updated entries
+  
   let newTotalIncome = 0;
   let newTotalExpenses = 0;
 
@@ -56,7 +56,6 @@ const App = () => {
     }
   });
 
-  // Update the state with the new totals
   setTotalIncome(newTotalIncome);
   setTotalExpenses(newTotalExpenses);
   setWalletBalance(newTotalIncome - newTotalExpenses);
@@ -74,6 +73,7 @@ const App = () => {
               totalExpenses={totalExpenses}
               walletBalance={walletBalance}
               onAddEntry={handleAddEntry}
+              onRemoveEntry={handleRemoveEntry}
               entries={entries}
             />
           }

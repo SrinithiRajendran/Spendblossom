@@ -14,9 +14,8 @@ const Navbar = ({walletBalance}) => {
               <div className='flex items-center'>
                   <IoWallet  className='mr-2 text-[#440323] wallet-balance'/>
                   <h1 className='text-[#58063a] font-bold mr-2 nav-balance '>Wallet Balance : </h1>
-                  <p className='font-bold text-[#035005] wallet-balance'>₹ {walletBalance}</p>
-        </div>
-        
+                  <p className='font-bold text-[#035005] wallet-balance2'>₹ {walletBalance}</p>
+              </div>
         </div>
     </nav>
   )
