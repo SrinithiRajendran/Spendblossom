@@ -1,10 +1,7 @@
 @media print {
-  #entry-table {
-    font-size: 12px; 
-    line-height: 1.5; 
-  }
-  #entry-table ul {
-    margin: 0; 
-    padding: 0; 
-  }
+  .pdf-container {
+        padding: 20px; /* Adjust as needed */
+        margin: 10mm; /* Adjust as needed */
+        font-size: 12px; /* Make sure the font size is readable */
+    }
 }

@@ -3,7 +3,7 @@ import Navbar from '../Navbar';
 import MoneyForm from '../MoneyForm';
 import { FaSearch } from 'react-icons/fa';
 import { IoRemoveCircleOutline } from 'react-icons/io5';
-import html2canvas from 'html2canvas';
+import "jspdf-autotable"
 import jsPDF from 'jspdf';
 import { LuDownloadCloud } from 'react-icons/lu';
 
@@ -15,34 +15,40 @@ const Home = ({ totalIncome, totalExpenses, walletBalance, onAddEntry, entries, 
     entry.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-
   const downloadPDF = () => {
-  const input = document.getElementById('entry-table');
-  
-  html2canvas(input, { scale: 2 }).then((canvas) => { // Increase scale for better quality
-    const pdf = new jsPDF('p', 'mm', 'a4'); // Use A4 size
-    const imgData = canvas.toDataURL('image/png');
-    const imgWidth = 210; // Width for A4
-    const pageHeight = pdf.internal.pageSize.height; // Get the page height
-    const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calculate the image height
-    let heightLeft = imgHeight;
+    const doc = new jsPDF();
+    const tableColumn = ["#", "Title", "Date", "Type", "Amount"];
+    const tableRows = [];
 
-    let position = 0;
+    filteredEntries.forEach((entry, index) => {
+      const entryData = [
+        index + 1,
+        entry.title,
+        entry.date,
+        entry.type.charAt(0).toUpperCase() + entry.type.slice(1),
+        `Rs. ${entry.amount}`,
+      ];
+      tableRows.push(entryData);
+    });
 
-    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
-
-    pdf.save('entries.pdf');
+    doc.setFontSize(16);
+    doc.text("Entry History", 14, 10);
+    doc.autoTable({
+    head: [tableColumn],
+    body: tableRows,
+    startY: 20,
+    theme: 'plain', 
+    headStyles: {
+      fillColor: [120,26,95], 
+      textColor: [255, 255, 255], 
+      fontStyle: 'bold',
+    },
+    margin: { top: 10 },
   });
-};
+    doc.save('entries.pdf');
+  };
 
+ 
 
   return (
     <div>

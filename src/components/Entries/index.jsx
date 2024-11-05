@@ -3,10 +3,9 @@ import Navbar from '../Navbar';
 import { FaSearch } from 'react-icons/fa';
 import { IoRemoveCircleOutline } from "react-icons/io5";
 import { LuDownloadCloud } from "react-icons/lu";
-import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import "./index.css"
-
+import 'jspdf-autotable';
+import './index.css';
 
 const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,45 +15,50 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
   );
 
   const downloadPDF = () => {
-  const input = document.getElementById('entry-table');
-  
-  html2canvas(input, { scale: 2 }).then((canvas) => { // Increase scale for better quality
-    const pdf = new jsPDF('p', 'mm', 'a4'); // Use A4 size
-    const imgData = canvas.toDataURL('image/png');
-    const imgWidth = 210; // Width for A4
-    const pageHeight = pdf.internal.pageSize.height; // Get the page height
-    const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calculate the image height
-    let heightLeft = imgHeight;
+    const doc = new jsPDF();
+    const tableColumn = ["#", "Title", "Date", "Type", "Amount"];
+    const tableRows = [];
 
-    let position = 0;
+    filteredEntries.forEach((entry, index) => {
+      const entryData = [
+        index + 1,
+        entry.title,
+        entry.date,
+        entry.type.charAt(0).toUpperCase() + entry.type.slice(1),
+         `Rs. ${entry.amount}`,
+      ];
+      tableRows.push(entryData);
+    });
 
-    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
-
-    pdf.save('entries.pdf');
+    doc.setFontSize(16);
+    doc.text("Entry History", 14, 10);
+     doc.autoTable({
+    head: [tableColumn],
+    body: tableRows,
+    startY: 20,
+    theme: 'plain', 
+    headStyles: {
+      fillColor: [120,26,95], 
+      textColor: [255, 255, 255], 
+      fontStyle: 'bold',
+    },
+    margin: { top: 10 },
   });
-};
-
+    doc.save('entries.pdf');
+  };
 
   return (
     <>
       <Navbar walletBalance={walletBalance} />
       <div className="p-6">
         <div className='flex items-center justify-between'>
-        <h2 className="text-xl font-bold mb-8">Entry History</h2>
+          <h2 className="text-xl font-bold mb-8">Entry History</h2>
           <button 
-          onClick={downloadPDF} 
-          className="bg-none text-[#4a013a] rounded-md mb-7"
-        >
-          <LuDownloadCloud className='text-[#570042] text-3xl'/>
-        </button> 
+            onClick={downloadPDF} 
+            className="bg-none text-[#4a013a] rounded-md mb-7"
+          >
+            <LuDownloadCloud className='text-[#570042] text-3xl' />
+          </button> 
         </div>
         <div className="flex items-center mb-4">
           <input
@@ -68,8 +72,6 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
             <FaSearch />
           </button>
         </div>
-
-      
 
         <div id="entry-table" className="w-full">
           <ul className="grid grid-cols-6 gap-2 sm:gap-4 text-left mb-2 font-bold text-[#43042c] px-2 sm:px-4">
@@ -92,12 +94,12 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
               <li className="text-sm sm:text-base text-[#6d0445] flex items-center">
                 ₹ {entry.amount}
               </li>
-               <button 
-                  onClick={() => onRemoveEntry(entry.id)} 
-                  className="text-red-600 hover:text-red-800 ml-2"
-                >
-                  <IoRemoveCircleOutline />
-                </button>
+              <button 
+                onClick={() => onRemoveEntry(entry.id)} 
+                className="text-red-600 hover:text-red-800 ml-2"
+              >
+                <IoRemoveCircleOutline />
+              </button>
             </ul>
           ))}
         </div>
