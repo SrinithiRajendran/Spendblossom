@@ -16,6 +16,9 @@
   .nav-balance {
     display: flex; 
   }
+  .wallet-balance2{
+    font-size: 32px;
+  }
 }
 
 @media (max-width: 300px) {
