@@ -88,7 +88,7 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
             <LuDownloadCloud className="text-[#570042] text-3xl" />
           </button>
         </div>
-        <div className="flex items-center mb-4">
+        <div className="flex mb-4">
           <input
             type="text"
             placeholder="Search entries..."
@@ -101,7 +101,7 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
           </button>
           <button
             onClick={() => setFilterVisible(!filterVisible)}
-            className="bg-[#000000] text-white p-3 ml-2 rounded-r-md flex items-center"
+            className="bg-[#000000]  text-white p-3 ml-1 rounded-r-md flex items-center"
           >
             <IoFilterSharp />
           </button>
@@ -161,7 +161,6 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
             </div>
           </div>
         )}
-
         <div id="entry-table" className="w-full">
           <ul className="grid grid-cols-6 gap-2 sm:gap-4 text-left mb-2 font-bold text-[#43042c] px-2 sm:px-4">
             <li>#</li>
