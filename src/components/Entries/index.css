@@ -1,7 +1,7 @@
 @media print {
   .pdf-container {
-        padding: 20px; /* Adjust as needed */
-        margin: 10mm; /* Adjust as needed */
-        font-size: 12px; /* Make sure the font size is readable */
-    }
+    padding: 20px;
+    margin: 10mm;
+    font-size: 12px;
+  }
 }

@@ -1,19 +1,50 @@
-import React, { useState } from 'react';
-import Navbar from '../Navbar';
-import MoneyForm from '../MoneyForm';
-import { FaSearch } from 'react-icons/fa';
-import { IoRemoveCircleOutline } from 'react-icons/io5';
-import "jspdf-autotable"
-import jsPDF from 'jspdf';
-import { LuDownloadCloud } from 'react-icons/lu';
+import { useState } from "react";
+import Navbar from "../Navbar";
+import MoneyForm from "../MoneyForm";
+import { FaSearch } from "react-icons/fa";
+import { IoRemoveCircleOutline, IoFilterSharp } from "react-icons/io5";
+import "jspdf-autotable";
+import jsPDF from "jspdf";
+import { LuDownloadCloud } from "react-icons/lu";
 
+const Home = ({
+  // eslint-disable-next-line react/prop-types
+  totalIncome,
+  // eslint-disable-next-line react/prop-types
+  totalExpenses,
+  // eslint-disable-next-line react/prop-types
+  walletBalance,
+  // eslint-disable-next-line react/prop-types
+  onAddEntry,
+  // eslint-disable-next-line react/prop-types
+  entries,
+  // eslint-disable-next-line react/prop-types
+  onRemoveEntry,
+}) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [filters, setFilters] = useState({
+    type: "",
+    minAmount: "",
+    maxAmount: "",
+    date: "",
+  });
 
-const Home = ({ totalIncome, totalExpenses, walletBalance, onAddEntry, entries, onRemoveEntry }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const filteredEntries = entries
+    // eslint-disable-next-line react/prop-types
+    .filter((entry) =>
+      entry.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .filter((entry) => {
+      const { type, minAmount, maxAmount, date } = filters;
+      const isTypeMatch = type ? entry.type === type : true;
+      const isAmountMatch =
+        (minAmount ? entry.amount >= parseFloat(minAmount) : true) &&
+        (maxAmount ? entry.amount <= parseFloat(maxAmount) : true);
+      const isDateMatch = date ? entry.date.includes(date) : true;
 
-  const filteredEntries = entries.filter((entry) =>
-    entry.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+      return isTypeMatch && isAmountMatch && isDateMatch;
+    });
 
   const downloadPDF = () => {
     const doc = new jsPDF();
@@ -34,48 +65,58 @@ const Home = ({ totalIncome, totalExpenses, walletBalance, onAddEntry, entries, 
     doc.setFontSize(16);
     doc.text("Entry History", 14, 10);
     doc.autoTable({
-    head: [tableColumn],
-    body: tableRows,
-    startY: 20,
-    theme: 'plain', 
-    headStyles: {
-      fillColor: [120,26,95], 
-      textColor: [255, 255, 255], 
-      fontStyle: 'bold',
-    },
-    margin: { top: 10 },
-  });
-    doc.save('entries.pdf');
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20,
+      theme: "plain",
+      headStyles: {
+        fillColor: [120, 26, 95],
+        textColor: [255, 255, 255],
+        fontStyle: "bold",
+      },
+      margin: { top: 10 },
+    });
+    doc.save("entries.pdf");
   };
 
- 
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   return (
     <div>
       <Navbar walletBalance={walletBalance} />
       <div className="flex justify-between p-5 totalfont">
-        <div className="flex flex-col border-2 border-[#c8d3ae] rounded-[10px] p-4 w-[48%]">
-          <h1 className="text-sm text-[#4f0438] mb-4 md:text-xl">Total Income</h1>
+        <div className="flex flex-col border-2 border-[#4d4d4d] rounded-[10px] p-4 w-[48%]">
+          <h1 className="text-sm text-[#4f0438] mb-4 md:text-xl">
+            Total Income
+          </h1>
           <p className="font-bold text-3xl text-[green]">{totalIncome}</p>
         </div>
-        <div className="flex flex-col border-2 border-[#c8d3ae] rounded-[10px] p-4 w-[48%]">
-          <h1 className="text-[#4f0438] text-sm mb-4 md:text-xl">Total Expenses</h1>
+        <div className="flex flex-col border-2 border-[#4d4d4d] rounded-[10px] p-4 w-[48%]">
+          <h1 className="text-[#4f0438] text-sm mb-4 md:text-xl">
+            Total Expenses
+          </h1>
           <p className="font-bold text-3xl text-[#cd0909]">{totalExpenses}</p>
         </div>
       </div>
 
       <div className="flex flex-wrap md:flex-nowrap justify-between p-1 ">
         <MoneyForm onAddEntry={onAddEntry} />
-        <div className="w-full md:w-[58%] mx-4 p-6 border-2 border-[#ccd3b1] rounded-lg shadow-md mb-6 hidden md:block">
-          <div className='flex items-center justify-between'>
-        <h2 className="text-xl font-bold mb-8">Entry History</h2>
-          <button 
-          onClick={downloadPDF} 
-          className="bg-none text-[#4a013a] rounded-md mb-7"
-        >
-          <LuDownloadCloud className='text-[#570042] text-3xl'/>
-            </button> 
-            </div>
+        <div className="w-full md:w-[58%] mx-4 p-6 border-2 border-[#4b4b4b] rounded-lg shadow-md mb-6 hidden md:block">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold mb-8">Entry History</h2>
+            <button
+              onClick={downloadPDF}
+              className="bg-none text-[#4a013a] rounded-md mb-7"
+            >
+              <LuDownloadCloud className="text-[#570042] text-3xl" />
+            </button>
+          </div>
           <div className="flex items-center mb-4">
             <input
               type="text"
@@ -87,7 +128,67 @@ const Home = ({ totalIncome, totalExpenses, walletBalance, onAddEntry, entries, 
             <button className="bg-[#550842] text-white p-3 rounded-r-md flex items-center">
               <FaSearch />
             </button>
+            <button
+              onClick={() => setFilterVisible(!filterVisible)}
+              className="bg-[#000000] text-white p-3 ml-2 rounded-r-md flex items-center"
+            >
+              <IoFilterSharp />
+            </button>
           </div>
+          {filterVisible && (
+            <div className="mb-6 p-4 border rounded-md bg-gray-100">
+              <div className="mb-4 ">
+                <label className="block text-sm">Filter by Type:</label>
+                <select
+                  name="type"
+                  value={filters.type}
+                  onChange={handleFilterChange}
+                  className="p-2 text-xs mt-2 border rounded-md cursor-pointer"
+                >
+                  <option value="" className="text-sm">
+                    All
+                  </option>
+                  <option value="income" className="text-sm">
+                    Income
+                  </option>
+                  <option value="expense" className="text-sm">
+                    Expense
+                  </option>
+                </select>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm mb-2">Filter by Amount:</label>
+                <input
+                  type="number"
+                  name="minAmount"
+                  placeholder="Min Amount"
+                  value={filters.minAmount}
+                  onChange={handleFilterChange}
+                  className="p-2 border rounded-md mb-2 text-xs"
+                />
+                <input
+                  type="number"
+                  name="maxAmount"
+                  placeholder="Max Amount"
+                  value={filters.maxAmount}
+                  onChange={handleFilterChange}
+                  className="p-2 border rounded-md text-xs"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm">Filter by Date:</label>
+                <input
+                  type="date"
+                  name="date"
+                  value={filters.date}
+                  onChange={handleFilterChange}
+                  className="p-2 border rounded-md text-xs mt-2"
+                />
+              </div>
+            </div>
+          )}
 
           <div id="entry-table" className="w-full">
             <ul className="grid grid-cols-6 gap-2 sm:gap-4 text-left mb-2 font-bold text-[#43042c] px-2 sm:px-4">
@@ -97,27 +198,42 @@ const Home = ({ totalIncome, totalExpenses, walletBalance, onAddEntry, entries, 
               <li>Type</li>
               <li>Amount</li>
             </ul>
-            {filteredEntries.map((entry, index) => (
-              <ul key={entry.id} className="p-2 sm:p-4 border-b border-[#581442] grid grid-cols-6 gap-2 sm:gap-4 text-left px-2 sm:px-4">
-                <li className="text-sm sm:text-sm">{index + 1}</li>
-                <li className="text-sm sm:text-sm flex items-center overflow-hidden max-w-xs">
-                  <span className="truncate">{entry.title}</span>
-                </li>
-                <li className="text-sm sm:text-sm">{entry.date}</li>
-                <li className={`text-sm sm:text-sm ${entry.type === "income" ? 'text-green-600' : 'text-red-700'}`}>
-                  {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)}
-                </li>
-                <li className="text-sm sm:text-base text-[#6d0445] flex items-center">
-                  ₹ {entry.amount}
-                </li>
-                 <button 
-                    onClick={() => onRemoveEntry(entry.id)} 
+            {filteredEntries.length > 0 ? (
+              filteredEntries.map((entry, index) => (
+                <ul
+                  key={entry.id}
+                  className="p-2 sm:p-4 border-b border-[#cbf9c0] grid grid-cols-6 gap-2 sm:gap-4 text-left px-2 sm:px-4"
+                >
+                  <li className="text-sm sm:text-sm">{index + 1}</li>
+                  <li className="text-sm sm:text-sm flex items-center overflow-hidden max-w-xs">
+                    <span className="truncate">{entry.title}</span>
+                  </li>
+                  <li className="text-sm sm:text-sm">{entry.date}</li>
+                  <li
+                    className={`text-sm sm:text-sm ${
+                      entry.type === "income"
+                        ? "text-green-600"
+                        : "text-red-700"
+                    }`}
+                  >
+                    {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)}
+                  </li>
+                  <li className="text-sm sm:text-base text-[#6d0445] flex items-center">
+                    ₹ {entry.amount}
+                  </li>
+                  <button
+                    onClick={() => onRemoveEntry(entry.id)}
                     className="text-red-600 hover:text-red-800 ml-2"
                   >
                     <IoRemoveCircleOutline />
                   </button>
-              </ul>
-            ))}
+                </ul>
+              ))
+            ) : (
+              <p className="text-[#5a5858] m-4 font-bold text-center">
+                No Result Found
+              </p>
+            )}
           </div>
         </div>
       </div>

@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
-import Entries from './components/Entries';
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Entries from "./components/Entries";
 
 const App = () => {
   const [totalIncome, setTotalIncome] = useState(() => {
-    return parseFloat(localStorage.getItem('totalIncome')) || 0;
+    return parseFloat(localStorage.getItem("totalIncome")) || 0;
   });
   const [totalExpenses, setTotalExpenses] = useState(() => {
-    return parseFloat(localStorage.getItem('totalExpenses')) || 0;
+    return parseFloat(localStorage.getItem("totalExpenses")) || 0;
   });
   const [walletBalance, setWalletBalance] = useState(() => {
-    return parseFloat(localStorage.getItem('walletBalance')) || 0;
+    return parseFloat(localStorage.getItem("walletBalance")) || 0;
   });
   const [entries, setEntries] = useState(() => {
-    return JSON.parse(localStorage.getItem('entries')) || [];
+    return JSON.parse(localStorage.getItem("entries")) || [];
   });
 
   useEffect(() => {
-    localStorage.setItem('totalIncome', totalIncome.toString());
-    localStorage.setItem('totalExpenses', totalExpenses.toString());
-    localStorage.setItem('walletBalance', walletBalance.toString());
-    localStorage.setItem('entries', JSON.stringify(entries));
+    localStorage.setItem("totalIncome", totalIncome.toString());
+    localStorage.setItem("totalExpenses", totalExpenses.toString());
+    localStorage.setItem("walletBalance", walletBalance.toString());
+    localStorage.setItem("entries", JSON.stringify(entries));
   }, [totalIncome, totalExpenses, walletBalance, entries]);
 
   const handleAddEntry = (entry) => {
     const amount = parseFloat(entry.amount);
 
-    if (entry.type === 'income') {
+    if (entry.type === "income") {
       setTotalIncome((prev) => prev + amount);
       setWalletBalance((prev) => prev + amount);
-    } else if (entry.type === 'expense') {
+    } else if (entry.type === "expense") {
       setTotalExpenses((prev) => prev + amount);
       setWalletBalance((prev) => prev - amount);
     }
@@ -39,28 +39,25 @@ const App = () => {
   };
 
   const handleRemoveEntry = (id) => {
-  
-  const updatedEntries = entries.filter((entry) => entry.id !== id);
-  setEntries(updatedEntries);
+    const updatedEntries = entries.filter((entry) => entry.id !== id);
+    setEntries(updatedEntries);
 
-  
-  let newTotalIncome = 0;
-  let newTotalExpenses = 0;
+    let newTotalIncome = 0;
+    let newTotalExpenses = 0;
 
-  updatedEntries.forEach((entry) => {
-    const amount = parseFloat(entry.amount);
-    if (entry.type === 'income') {
-      newTotalIncome += amount;
-    } else if (entry.type === 'expense') {
-      newTotalExpenses += amount;
-    }
-  });
+    updatedEntries.forEach((entry) => {
+      const amount = parseFloat(entry.amount);
+      if (entry.type === "income") {
+        newTotalIncome += amount;
+      } else if (entry.type === "expense") {
+        newTotalExpenses += amount;
+      }
+    });
 
-  setTotalIncome(newTotalIncome);
-  setTotalExpenses(newTotalExpenses);
-  setWalletBalance(newTotalIncome - newTotalExpenses);
-};
-
+    setTotalIncome(newTotalIncome);
+    setTotalExpenses(newTotalExpenses);
+    setWalletBalance(newTotalIncome - newTotalExpenses);
+  };
 
   return (
     <Router>

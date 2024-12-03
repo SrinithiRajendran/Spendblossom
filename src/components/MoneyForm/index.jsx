@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 import { MdOutlineHistoryEdu } from "react-icons/md";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
-
+// eslint-disable-next-line react/prop-types
 const MoneyForm = ({ onAddEntry }) => {
   const [formData, setFormData] = useState({
-    type: 'income',
-    date: '',
-    title: '',
-    amount: ''
+    type: "income",
+    date: "",
+    title: "",
+    amount: "",
   });
 
   const handleChange = (event) => {
@@ -19,21 +19,25 @@ const MoneyForm = ({ onAddEntry }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     onAddEntry(formData);
-    setFormData({ type: 'income', date: '', title: '', amount: '' });
+    setFormData({ type: "income", date: "", title: "", amount: "" });
   };
 
   return (
-    <div className="w-full md:w-[38%] mx-4 p-6 border-2 border-[#ccd3b1] rounded-lg shadow-md mb-6">
-      <div className='flex justify-between '>
-        <h2 className="md:text-xl text-base font-bold mb-4 text-[#43043f]">Add Income/Expense</h2>
-         <Link to="/history" className="md:hidden flex text-2xl ml-2"> {/* Use Link instead of a tag */}
-          <MdOutlineHistoryEdu className='text-[#550842] hover:text-[#810451]' />
+    <div className="w-full md:w-[38%] mx-4 p-6 border-2 border-[#464545] rounded-lg shadow-md mb-6">
+      <div className="flex justify-between ">
+        <h2 className="md:text-xl text-base font-bold mb-4 text-[#43043f]">
+          Add Income/Expense
+        </h2>
+        <Link to="/history" className="md:hidden flex text-2xl ml-2">
+          <MdOutlineHistoryEdu className="text-[#550842] hover:text-[#810451]" />
         </Link>
       </div>
-      
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block font-medium mb-1 text-sm md:text-base">Title</label>
+          <label className="block font-medium mb-1 text-sm md:text-base">
+            Title
+          </label>
           <input
             type="text"
             name="title"
@@ -45,7 +49,9 @@ const MoneyForm = ({ onAddEntry }) => {
           />
         </div>
         <div>
-          <label className="block font-medium mb-1 text-sm md:text-base">Date</label>
+          <label className="block font-medium mb-1 text-sm md:text-base">
+            Date
+          </label>
           <input
             type="date"
             name="date"
@@ -56,7 +62,9 @@ const MoneyForm = ({ onAddEntry }) => {
           />
         </div>
         <div>
-          <label className="block font-medium mb-1 text-sm md:text-base">Amount</label>
+          <label className="block font-medium mb-1 text-sm md:text-base">
+            Amount
+          </label>
           <input
             type="number"
             name="amount"
@@ -68,7 +76,9 @@ const MoneyForm = ({ onAddEntry }) => {
           />
         </div>
         <div>
-          <label className="block font-medium mb-1 text-sm md:text-base">Type</label>
+          <label className="block font-medium mb-1 text-sm md:text-base">
+            Type
+          </label>
           <select
             name="type"
             value={formData.type}
@@ -79,7 +89,10 @@ const MoneyForm = ({ onAddEntry }) => {
             <option value="expense">Expense</option>
           </select>
         </div>
-        <button type="submit" className="w-full bg-[#550842] text-white py-2 rounded mt-4 hover:bg-[#810451] text-sm md:text-base">
+        <button
+          type="submit"
+          className="w-full bg-[#550842] text-white py-2 rounded mt-4 hover:bg-[#810451] text-sm md:text-base"
+        >
           Add Entry
         </button>
       </form>

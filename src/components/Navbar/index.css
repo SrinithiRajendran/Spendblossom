@@ -1,40 +1,38 @@
-.fontstyle{
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-    font-size: larger;
+.fontstyle {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: larger;
 }
-
-
 .nav-balance {
-  display: none; 
+  display: none;
 }
 
-.wallet-balance{
-    font-size:1.875rem;
+.wallet-balance {
+  font-size: 1.875rem;
 }
 
 @media (min-width: 501px) {
   .nav-balance {
-    display: flex; 
+    display: flex;
   }
-  .wallet-balance2{
+  .wallet-balance2 {
     font-size: 32px;
   }
 }
 
 @media (max-width: 300px) {
   .wallet-balance {
-    font-size: 15px; 
+    font-size: 15px;
   }
-  .wallet-balance2{
+  .wallet-balance2 {
     font-size: 22px;
   }
-} 
+}
 
 @media (min-width: 301px) and (max-width: 600px) {
   .wallet-balance {
-    font-size: 18px; 
+    font-size: 18px;
   }
-  .wallet-balance2{
+  .wallet-balance2 {
     font-size: 22px;
   }
 }
