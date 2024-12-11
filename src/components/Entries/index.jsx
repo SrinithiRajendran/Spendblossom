@@ -7,6 +7,9 @@ import { IoClose } from "react-icons/io5";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import "./index.css";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { RiArrowLeftFill } from "react-icons/ri";
+import { SlArrowLeftCircle } from "react-icons/sl";
 
 // eslint-disable-next-line react/prop-types
 const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
@@ -89,7 +92,11 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
       <Navbar walletBalance={walletBalance} />
       <div className="p-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold mb-8">Entry History</h2>
+          <div className="flex items-center gap-2 justify-center">
+            <SlArrowLeftCircle className=" mb-8  text-2xl" />
+            <h2 className="text-xl font-bold mb-8">Entry History</h2>
+          </div>
+
           <button
             onClick={downloadPDF}
             className="bg-none text-[#4a013a] rounded-md mb-7"
