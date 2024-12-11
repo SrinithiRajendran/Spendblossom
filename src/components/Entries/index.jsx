@@ -95,7 +95,7 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 justify-center">
             <SlArrowLeftCircle
-              className=" mb-8 text-2xl"
+              className=" mb-8 text-2xl cursor-pointer"
               onClick={() => navigate(-1)}
             />
             <h2 className="text-xl font-bold mb-8">Entry History</h2>
@@ -105,7 +105,7 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
             onClick={downloadPDF}
             className="bg-none text-[#4a013a] rounded-md mb-7"
           >
-            <LuDownloadCloud className="text-[#570042] text-3xl" />
+            <LuDownloadCloud className="text-[#570042] text-3xl cursor-pointer" />
           </button>
         </div>
         <div className="flex mb-4">
