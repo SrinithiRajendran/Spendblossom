@@ -8,6 +8,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import "./index.css";
 import { SlArrowLeftCircle } from "react-icons/sl";
+import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
@@ -85,13 +86,18 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
     }));
   };
 
+  const navigate = useNavigate();
+
   return (
     <>
       <Navbar walletBalance={walletBalance} />
       <div className="p-6">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 justify-center">
-            <SlArrowLeftCircle className=" mb-8  text-2xl" />
+          <div className="flex items-center gap-3 justify-center">
+            <SlArrowLeftCircle
+              className=" mb-8 text-2xl"
+              onClick={() => navigate(-1)}
+            />
             <h2 className="text-xl font-bold mb-8">Entry History</h2>
           </div>
 
