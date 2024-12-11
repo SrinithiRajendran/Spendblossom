@@ -3,6 +3,7 @@ import Navbar from "../Navbar";
 import { FaSearch } from "react-icons/fa";
 import { IoRemoveCircleOutline, IoFilterSharp } from "react-icons/io5";
 import { LuDownloadCloud } from "react-icons/lu";
+import { IoClose } from "react-icons/io5";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import "./index.css";
@@ -18,6 +19,14 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
     date: "",
   });
 
+  const [selectedEntry, setSelectedEntry] = useState(null);
+
+  const handleEntryClick = (entry) => {
+    setSelectedEntry(entry);
+  };
+  const closePopup = () => {
+    setSelectedEntry(null);
+  };
   const filteredEntries = entries
     // eslint-disable-next-line react/prop-types
     .filter((entry) =>
@@ -169,12 +178,12 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
             <li>Type</li>
             <li>Amount</li>
           </ul>
-
           {filteredEntries.length > 0 ? (
             filteredEntries.map((entry, index) => (
               <ul
                 key={entry.id}
                 className="p-2 sm:p-4 border-b border-[#cbf9c0] grid grid-cols-6 gap-2 sm:gap-4 text-left px-2 sm:px-4"
+                onClick={() => handleEntryClick(entry)}
               >
                 <li className="text-sm sm:text-sm">{index + 1}</li>
                 <li className="text-sm sm:text-sm flex items-center overflow-hidden max-w-xs">
@@ -192,7 +201,10 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
                   ₹ {entry.amount}
                 </li>
                 <button
-                  onClick={() => onRemoveEntry(entry.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onRemoveEntry(entry.id);
+                  }}
                   className="text-red-600 hover:text-red-800 ml-2"
                 >
                   <IoRemoveCircleOutline />
@@ -203,6 +215,35 @@ const Entries = ({ entries, onRemoveEntry, walletBalance }) => {
             <p className="text-[#5a5858] m-4 font-bold text-center">
               No Result Found
             </p>
+          )}
+          {selectedEntry && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+              <div className="bg-white relative rounded-lg p-6 w-96">
+                <button
+                  className="top-2 right-2 absolute rounded hover:text-[red]"
+                  onClick={closePopup}
+                >
+                  <IoClose className="text-lg" />
+                </button>
+                <h2 className="text-lg font-bold mb-4">
+                  <span className="text-[#510b4a] font-bold">Title : </span>
+                  {selectedEntry.title}
+                </h2>
+                <p>
+                  <span className="text-[#510b4a] font-bold">Date : </span>{" "}
+                  {selectedEntry.date}
+                </p>
+                <p>
+                  <span className="text-[#510b4a] font-bold">Type : </span>
+                  {selectedEntry.type.charAt(0).toUpperCase() +
+                    selectedEntry.type.slice(1)}
+                </p>
+                <p>
+                  <span className="text-[#510b4a] font-bold">Amount : </span> ₹
+                  {selectedEntry.amount}
+                </p>
+              </div>
+            </div>
           )}
         </div>
       </div>
