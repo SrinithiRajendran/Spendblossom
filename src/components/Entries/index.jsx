@@ -7,8 +7,6 @@ import { IoClose } from "react-icons/io5";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import "./index.css";
-import { FaArrowLeftLong } from "react-icons/fa6";
-import { RiArrowLeftFill } from "react-icons/ri";
 import { SlArrowLeftCircle } from "react-icons/sl";
 
 // eslint-disable-next-line react/prop-types
