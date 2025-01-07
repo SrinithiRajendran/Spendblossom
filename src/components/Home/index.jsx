@@ -290,7 +290,7 @@ const Home = ({
 
             {selectedEntry && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                <div className="bg-white relative rounded-lg p-6 w-96">
+                <div className="bg-white relative rounded-lg p-6 w-80">
                   <button
                     className="top-2 right-2 absolute rounded hover:text-[red]"
                     onClick={closePopup}
