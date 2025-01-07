@@ -259,10 +259,8 @@ const Home = ({
                   >
                     <IoClose className="text-lg" />
                   </button>
-                  <h2 className="text-center font-bold mb-4 ">
-                    <span className="text-[#510b4a] font-bold text-xs md:text-lg">
-                      Are you sure you want to permanently remove this entry?
-                    </span>
+                  <h2 className="text-center font-bold mb-4 text-lg text-[#510b4a]">
+                    Are you sure you want to permanently remove this entry?
                   </h2>
 
                   <div className="flex justify-center items-center gap-10">
