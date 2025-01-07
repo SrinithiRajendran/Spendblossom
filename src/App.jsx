@@ -17,6 +17,10 @@ const App = () => {
     return JSON.parse(localStorage.getItem("entries")) || [];
   });
 
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [entryToRemove, setEntryToRemove] = useState(null);
+
+  // Sync state with localStorage
   useEffect(() => {
     localStorage.setItem("totalIncome", totalIncome.toString());
     localStorage.setItem("totalExpenses", totalExpenses.toString());
@@ -24,6 +28,7 @@ const App = () => {
     localStorage.setItem("entries", JSON.stringify(entries));
   }, [totalIncome, totalExpenses, walletBalance, entries]);
 
+  // Add a new entry
   const handleAddEntry = (entry) => {
     const amount = parseFloat(entry.amount);
 
@@ -38,8 +43,26 @@ const App = () => {
     setEntries((prevEntries) => [...prevEntries, { ...entry, id: Date.now() }]);
   };
 
-  const handleRemoveEntry = (id) => {
-    const updatedEntries = entries.filter((entry) => entry.id !== id);
+  // Open the remove popup
+  const openRemovePopup = (id) => {
+    setEntryToRemove(id);
+    setIsPopupVisible(true);
+  };
+
+  // Close the remove popup
+  const closeRemovePopup = () => {
+    setEntryToRemove(null); // Reset the entryToRemove state
+    setIsPopupVisible(false); // Hide the popup
+  };
+
+  // Remove an entry
+
+  const handleRemoveEntry = () => {
+    if (!entryToRemove) return;
+
+    const updatedEntries = entries.filter(
+      (entry) => entry.id !== entryToRemove
+    );
     setEntries(updatedEntries);
 
     let newTotalIncome = 0;
@@ -57,6 +80,9 @@ const App = () => {
     setTotalIncome(newTotalIncome);
     setTotalExpenses(newTotalExpenses);
     setWalletBalance(newTotalIncome - newTotalExpenses);
+
+    // Close the popup after entry removal
+    closeRemovePopup();
   };
 
   return (
@@ -70,8 +96,12 @@ const App = () => {
               totalExpenses={totalExpenses}
               walletBalance={walletBalance}
               onAddEntry={handleAddEntry}
-              onRemoveEntry={handleRemoveEntry}
+              onRemoveEntry={openRemovePopup}
               entries={entries}
+              isPopupVisible={isPopupVisible}
+              closeRemovePopup={closeRemovePopup}
+              handleRemoveEntry={handleRemoveEntry}
+              entryToRemove={entryToRemove}
             />
           }
         />
@@ -80,8 +110,12 @@ const App = () => {
           element={
             <Entries
               entries={entries}
-              onRemoveEntry={handleRemoveEntry}
+              onRemoveEntry={openRemovePopup}
               walletBalance={walletBalance}
+              isPopupVisible={isPopupVisible}
+              closeRemovePopup={closeRemovePopup}
+              handleRemoveEntry={handleRemoveEntry}
+              entryToRemove={entryToRemove}
             />
           }
         />

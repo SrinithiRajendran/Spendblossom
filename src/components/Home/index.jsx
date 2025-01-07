@@ -20,6 +20,10 @@ const Home = ({
   entries,
   // eslint-disable-next-line react/prop-types
   onRemoveEntry,
+  isPopupVisible,
+  closeRemovePopup,
+  handleRemoveEntry,
+  entryToRemove,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterVisible, setFilterVisible] = useState(false);
@@ -230,8 +234,11 @@ const Home = ({
                     ₹ {entry.amount}
                   </li>
                   <button
-                    onClick={() => onRemoveEntry(entry.id)}
-                    className="text-red-600 hover:text-red-800 ml-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRemoveEntry(entry.id); // Trigger openRemovePopup with entry.id
+                    }}
+                    className="text-red-600 hover:text-red-800 ml-2 relative" // Add relative positioning for popup
                   >
                     <IoRemoveCircleOutline />
                   </button>
@@ -241,7 +248,46 @@ const Home = ({
               <p className="text-[#5a5858] m-4 font-bold text-center">
                 No Result Found
               </p>
-            )}{" "}
+            )}
+            {/* Render the popup outside the entry list */}
+            {entryToRemove && isPopupVisible && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 ">
+                <div className="bg-white relative rounded-lg p-6 w-80">
+                  <button
+                    className="top-2 right-2 absolute rounded hover:text-red-500"
+                    onClick={closeRemovePopup} // Close the popup when clicked
+                  >
+                    <IoClose className="text-lg" />
+                  </button>
+                  <h2 className="text-center font-bold mb-4 ">
+                    <span className="text-[#510b4a] font-bold text-xs md:text-lg">
+                      Are you sure you want to remove this entry?
+                    </span>
+                  </h2>
+
+                  <div className="flex justify-center items-center gap-10">
+                    <button
+                      onClick={() => {
+                        handleRemoveEntry(); // Remove the entry
+                        closeRemovePopup(); // Close the popup after handling removal
+                      }}
+                      className="text-xs bg-green-900 text-white py-2 px-6 rounded-sm"
+                    >
+                      Yes
+                    </button>
+                    <button
+                      onClick={() => {
+                        closeRemovePopup(); // Close the popup without removing
+                      }}
+                      className="text-xs bg-red-900 text-white py-2 px-6 rounded-sm"
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {selectedEntry && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                 <div className="bg-white relative rounded-lg p-6 w-96">
