@@ -3,9 +3,10 @@ import { FaSearch } from "react-icons/fa";
 import { IoRemoveCircleOutline, IoFilterSharp } from "react-icons/io5";
 import "jspdf-autotable";
 import jsPDF from "jspdf";
-import { LuDownloadCloud } from "react-icons/lu";
+import { FaCloudDownloadAlt } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import PropTypes from "prop-types";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Filters = ({
   entries,
@@ -90,32 +91,35 @@ const Filters = ({
   };
 
   return (
-    <div className="mx-4 p-6 border-2 h-[100vh] border-[#e0e0e0] rounded-lg shadow-md">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold mb-8">Entry History</h2>
+    <div className="mx-4 p-6 border-2 font-mono border-[#e0e0e0] rounded-lg shadow-md">
+      <div className="flex items-center  justify-between">
+        <h2 className="text-md md:text-xl font-bold mb-8">Entry History</h2>
         <button
           onClick={downloadPDF}
           className="bg-none text-[#4a013a] rounded-md mb-7"
         >
-          <LuDownloadCloud className="text-[#570042] text-3xl" />
+          <FaCloudDownloadAlt className="text-[#570042] text-3xl" />
         </button>
       </div>
-      <div className="flex items-center mb-4">
-        <input
-          type="text"
-          placeholder="Search entries..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="flex-grow p-2 border rounded-l-md focus:outline-none text-sm md:text-base"
-        />
-        <button className="bg-[#550842] text-white p-3 rounded-r-md flex items-center">
-          <FaSearch />
-        </button>
+      <div className="flex items-center mb-4 justify-between">
+        <div className="flex w-[100%]">
+          <input
+            type="text"
+            placeholder="Search entries..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-[100%] p-2 border rounded-l-md focus:outline-none text-sm md:text-base"
+          />
+          <button className="bg-[#c2c2c2] text-[black] p-3 rounded-r-md flex items-center">
+            <FaSearch />
+          </button>
+        </div>
+
         <button
           onClick={() => setFilterVisible(!filterVisible)}
           className="bg-[#000000] text-white p-3 ml-2 rounded-r-md flex items-center"
         >
-          <IoFilterSharp />
+          {filterVisible ? <AiOutlineClose /> : <IoFilterSharp />}
         </button>
       </div>
       {filterVisible && (
@@ -175,9 +179,9 @@ const Filters = ({
 
       <div
         id="entry-table"
-        className="w-full h-[70vh] overflow-y-scroll custom-scrollbar"
+        className="w-full h-[65vh] overflow-y-scroll custom-scrollbar"
       >
-        <ul className="grid grid-cols-6 gap-2 sm:gap-4 text-left mb-2 font-bold text-[#43042c] px-2 sm:px-4">
+        <ul className="grid grid-cols-6 gap-2 sm:gap-4 text-[12px] sm:text-[14px] text-left mb-2 font-bold text-[#43042c] mt-4">
           <li>#</li>
           <li>Title</li>
           <li>Date</li>
@@ -188,33 +192,38 @@ const Filters = ({
           filteredEntries.map((entry, index) => (
             <ul
               key={entry.id}
-              className="p-2 sm:p-4 border-b border-[#cbf9c0] grid grid-cols-6 gap-2 sm:gap-4 text-left px-2 sm:px-4"
+              className=" border-b border-[#cbf9c0]  gap-2 sm:gap-4 py-4"
               onClick={() => handleEntryClick(entry)}
             >
-              <li className="text-sm sm:text-sm">{index + 1}</li>
-              <li className="text-sm sm:text-sm flex items-center overflow-hidden max-w-xs">
-                <span className="truncate">{entry.title}</span>
-              </li>
-              <li className="text-sm sm:text-sm">{entry.date}</li>
-              <li
-                className={`text-sm sm:text-sm ${
-                  entry.type === "income" ? "text-green-600" : "text-red-700"
-                }`}
-              >
-                {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)}
-              </li>
-              <li className="text-sm sm:text-base text-[#6d0445] flex items-center">
-                ₹ {entry.amount}
-              </li>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onRemoveEntry(entry.id); // Trigger openRemovePopup with entry.id
-                }}
-                className="text-red-600 hover:text-red-800 ml-2 relative" // Add relative positioning for popup
-              >
-                <IoRemoveCircleOutline />
-              </button>
+              <div className=" grid grid-cols-6 gap-2 sm:gap-4 items-start">
+                <li className="text-[11px] sm:text-sm">{index + 1}</li>
+                <li className="text-[11px] sm:text-sm flex items-center overflow-hidden max-w-xs">
+                  <span className="truncate">{entry.title}</span>
+                </li>
+                <li className="text-[11px] truncate sm:text-sm">
+                  {entry.date}
+                </li>
+                <li
+                  className={`text-[11px] sm:text-sm truncate ${
+                    entry.type === "income" ? "text-green-600" : "text-red-700"
+                  }`}
+                >
+                  {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)}
+                </li>
+                <li className="text-[11px] sm:text-base text-[#6d0445] flex items-center">
+                  <span className="text-[#000000]">₹</span>
+                  {entry.amount}
+                </li>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onRemoveEntry(entry.id); // Trigger openRemovePopup with entry.id
+                  }}
+                  className="text-red-600 hover:text-red-800 ml-2 relative" // Add relative positioning for popup
+                >
+                  <IoRemoveCircleOutline />
+                </button>
+              </div>
             </ul>
           ))
         ) : (

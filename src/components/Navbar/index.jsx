@@ -1,11 +1,11 @@
 import "./index.css";
 import { IoFlowerSharp, IoWallet } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
-// eslint-disable-next-line react/prop-types
 const Navbar = ({ walletBalance }) => {
   return (
-    <nav className="bg-gradient-to-r from-[#020300] to-[#000000] p-4 items-center ">
+    <nav className="bg-gradient-to-r font-mono from-[#020300] to-[#000000] p-4 items-center ">
       <div className="flex items-center justify-between">
         <Link to="/">
           <h1 className="text-[#d4f6cd] font-bold fontstyle flex items-center wallet-balance">
@@ -30,4 +30,7 @@ const Navbar = ({ walletBalance }) => {
   );
 };
 
+Navbar.propTypes = {
+  walletBalance: PropTypes.number.isRequired,
+};
 export default Navbar;

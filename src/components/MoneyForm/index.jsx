@@ -1,8 +1,8 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { MdOutlineHistoryEdu } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-// eslint-disable-next-line react/prop-types
 const MoneyForm = ({ onAddEntry }) => {
   const [formData, setFormData] = useState({
     type: "income",
@@ -23,9 +23,9 @@ const MoneyForm = ({ onAddEntry }) => {
   };
 
   return (
-    <div className="w-full md:w-[38%] mx-4 p-6 border-2 border-[#464545] rounded-lg shadow-md mb-6">
+    <div className="w-full font-mono md:w-[38%] mx-4 p-6 border-2 border-[#e0e0e0] rounded-lg shadow-md mb-6">
       <div className="flex justify-between ">
-        <h2 className="md:text-xl text-base font-bold mb-4 text-[#43043f]">
+        <h2 className="md:text-xl text-base font-bold mb-4 text-[#43043f] ">
           Add Income/Expense
         </h2>
         <Link to="/history" className="md:hidden flex text-2xl ml-2">
@@ -98,6 +98,9 @@ const MoneyForm = ({ onAddEntry }) => {
       </form>
     </div>
   );
+};
+MoneyForm.propTypes = {
+  onAddEntry: PropTypes.func.isRequired,
 };
 
 export default MoneyForm;

@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent; /* Keep track invisible */
+  }
+
+  /* Firefox Support */
+  .custom-scrollbar {
+    scrollbar-width: thin; /* Thin scrollbar for Firefox */
+    scrollbar-color: #ffffff transparent;
+  }
+}
