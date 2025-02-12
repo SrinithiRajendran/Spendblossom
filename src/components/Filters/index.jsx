@@ -91,7 +91,7 @@ const Filters = ({
   };
 
   return (
-    <div className="mx-4 p-6 border-2 font-mono border-[#e0e0e0] rounded-lg shadow-md">
+    <div className="mx-4 p-6 mb-6 border-2 font-mono border-[#e0e0e0] rounded-lg shadow-md">
       <div className="flex items-center  justify-between">
         <h2 className="text-md md:text-xl font-bold mb-8">Entry History</h2>
         <button
