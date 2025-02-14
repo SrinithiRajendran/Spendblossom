@@ -3,13 +3,24 @@
 @tailwind utilities;
 
 @layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 0; /* Hide scrollbar for WebKit browsers */
+    height: 0; /* Hide horizontal scrollbar */
+  }
+
   .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent; /* Keep track invisible */
   }
 
   /* Firefox Support */
   .custom-scrollbar {
-    scrollbar-width: thin; /* Thin scrollbar for Firefox */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
     scrollbar-color: #ffffff transparent;
   }
+}
+
+/* Apply the custom-scrollbar class to the body to hide scrollbars globally */
+body.custom-scrollbar {
+  overflow: hidden; /* Hide scrollbar but allow scrolling */
+  overflow-y: scroll; /* Ensure vertical scrolling is enabled */
 }
