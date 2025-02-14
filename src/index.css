@@ -8,19 +8,18 @@
     height: 0; /* Hide horizontal scrollbar */
   }
 
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent; /* Keep track invisible */
-  }
-
   /* Firefox Support */
   .custom-scrollbar {
     scrollbar-width: none; /* Hide scrollbar for Firefox */
-    scrollbar-color: #ffffff transparent;
   }
 }
 
-/* Apply the custom-scrollbar class to the body to hide scrollbars globally */
-body.custom-scrollbar {
-  overflow: hidden; /* Hide scrollbar but allow scrolling */
-  overflow-y: scroll; /* Ensure vertical scrolling is enabled */
+/* Hide the scrollbar */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Optional: You can still make the content scrollable */
+.scrollable {
+  overflow: scroll; /* or 'auto' */
 }
